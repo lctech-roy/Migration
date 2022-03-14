@@ -75,3 +75,7 @@
 /Migration/bin/Debug/net6.0/Ubiety.Dns.Core.dll
 /.idea/.idea.Migration/.idea/vcs.xml
 /Migration/bin/Debug/net6.0/ZstdNet.dll
+.DS_Store
+Migration/.DS_Store
+Migration/bin/.DS_Store
+Migration/obj/.DS_Store
