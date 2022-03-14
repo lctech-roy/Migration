@@ -15,26 +15,34 @@ IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile(appSettingsFileName)
     .Build();
 
-using var mySqlConnection =  new MySqlConnection(config.GetSection(mySqlConnectionStr).Value);
+using var mySqlConnection = new MySqlConnection(config.GetSection(mySqlConnectionStr).Value);
+
+var mapperList = new List<IMapper>()
+{
+    //全局
+    new CommonMapper("common"),
+    //界面 » 表情管理
+    new EmojiMapper("emoji"),
+    //界面 » 在線列表圖標
+    new OnlineMemberIconMapper("onlineMemberIcon"),
+    //會員 » 禁止 IP
+    new BannedIpMapper("bannedIp"),
+    //會員 » 推薦關注
+    new RecommendFollowMapper("recommendMember", "follow"),
+    //會員 » 推薦好友
+    new RecommendFriendMapper("recommendMember", "friend"),
+    //運營 » 站點幫助
+    new ForumFaqMapper("forumFaq"),
+    //運營 » 友情連接
+    new FriendSiteLinkMapper("friendSiteLink")
+};
 
 var configurationList = new List<Configuration>();
-//全局
-configurationList.AddRange( new CommonMapper("common").GetConfigurations(mySqlConnection));
-//界面 » 表情管理
-configurationList.AddRange( new EmojiMapper("emoji").GetConfigurations(mySqlConnection));
-//界面 » 在線列表圖標
-configurationList.AddRange( new OnlineMemberIconMapper("onlineMemberIcon").GetConfigurations(mySqlConnection));
-//會員 » 禁止 IP
-configurationList.AddRange( new BannedIpMapper("bannedIp").GetConfigurations(mySqlConnection));
-//會員 » 推薦關注
-configurationList.AddRange( new RecommendFollowMapper("recommendMember","follow").GetConfigurations(mySqlConnection));
-//會員 » 推薦好友
-configurationList.AddRange( new RecommendFriendMapper("recommendMember","friend").GetConfigurations(mySqlConnection));
-//運營 » 站點幫助
-configurationList.AddRange( new ForumFaqMapper("forumFaq").GetConfigurations(mySqlConnection));
-//運營 » 友情連接
-configurationList.AddRange( new FriendSiteLinkMapper("friendSiteLink").GetConfigurations(mySqlConnection));
 
+mapperList.ForEach(mapper =>
+{
+    configurationList.AddRange(mapper.GetConfigurations(mySqlConnection));
+});
 
 using var pgSqlConnection = new NpgsqlConnection(config.GetSection(pgSqlConnectionStr).Value);
 
