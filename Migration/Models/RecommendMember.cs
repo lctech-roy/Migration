@@ -13,6 +13,7 @@ public class RecommendMember
     public int OpUid { get; set; }
     [JsonProperty(PropertyName = "OperatorName")]
     public string? OpUserName { get; set; }
+    [JsonIgnore]
     public int DisplayOrder { get; set; }
     [JsonProperty(PropertyName = "CreateDate")]
     public int DateLine { get; set; }

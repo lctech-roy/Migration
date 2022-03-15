@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 
 public class Smiley
 {
+    [JsonIgnore]
     public int DisplayOrder { get; set; }
     public string? Type { get; set; }
     public string? Code { get; set; }

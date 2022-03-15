@@ -9,6 +9,7 @@ public class ForumImage
     public bool Available { get; set; }
     public string? Name { get; set; }
     public string? Type { get; set; }
+    [JsonIgnore]
     public int DisplayOrder { get; set; }
     public string? Directory { get; set; }
 }

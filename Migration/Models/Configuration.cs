@@ -12,4 +12,7 @@ public class Configuration
     // public string Source { get; set; }
     public DateTime CreationDate { get; } = DateTime.Now;
     // public DateTime ModificationDate { get; set; }
+    public string? Hierarchy { get; set; }
+    public int? Level { get; set; }
+    public int? Index { get; set; }
 }

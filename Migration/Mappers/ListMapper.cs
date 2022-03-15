@@ -33,19 +33,27 @@ public class ListMapper<T>
         {
             Id = rootId,
             Group = _group,
-            Key = _key
+            Key = _key,
+            Hierarchy = rootId.ToString(),
+            Level = 1,
         };
         configurationList.Add(configuration);
         
         for (var i = 0; i < oldSettingList.Count; i++)
         {
+            var id = Snowflake.Instance.Generate();
+            dynamic? oldSetting = oldSettingList[i];
             configuration = new Configuration
             {
-                Id = Snowflake.Instance.Generate(),
+                Id = id,
                 Key = $"{_key}_{i + 1}",
                 Group = _group,
                 ParentId = rootId,
-                Value = JsonConvert.SerializeObject(oldSettingList[i])
+                Value = JsonConvert.SerializeObject(oldSetting),
+                Hierarchy = $"{rootId}/{id}",
+                Level = 2,
+                Index = oldSetting?.GetType().GetProperty("DisplayOrder") != null ?
+                    oldSetting?.DisplayOrder : null
             };
             configurationList.Add(configuration);
         }

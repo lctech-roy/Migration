@@ -8,6 +8,7 @@ public class ForumFaq
     public int Id { get; set; }
     [JsonIgnore]
     public int Fpid { get; set; }
+    [JsonIgnore]
     public int DisplayOrder { get; set; }
     public string? Identifier { get; set; }
     public string? Keyword { get; set; }
