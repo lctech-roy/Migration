@@ -23,6 +23,8 @@ var mapperList = new List<IMapper>()
      new CommonMapper("common"),
      //界面 » 表情管理
      new EmojiMapper("emoji"),
+     //界面 » 主題鑒定
+     new StampMapper("stamp"),
      //界面 » 在線列表圖標
      new OnlineMemberIconMapper("onlineMemberIcon"),
      //會員 » 禁止 IP
@@ -54,6 +56,3 @@ foreach (var configuration in configurationList)
                                         , ""CreationDate"",""Hierarchy"",""Level"",""Index"")
         VALUES (@Id,@Key,@Value,@Group,@ParentId,@CreationDate,@Hierarchy,@Level,@Index);", configuration);
 }
-
-
-//Console.WriteLine("Hello, World!");

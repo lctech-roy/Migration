@@ -56,7 +56,8 @@ public class EmojiMapper : IMapper
             
             var smileyList = mySqlConnection.Query<Smiley>
             //tinyint(1)的資料類型dapper轉換會出問題，所以select出來轉UNSIGNED
-            ("SELECT CAST(displayorder AS UNSIGNED) AS displayorder,Type,Code,Url FROM pre_common_smiley WHERE typeid = @typeId"
+            (@"SELECT CAST(displayorder AS UNSIGNED) AS displayorder,Type,Code,Url 
+            FROM pre_common_smiley WHERE typeid = @typeId AND type = 'smiley'"
                 ,new {typeId =forumImageList[i].TypeId}).ToList();
 
             if (!smileyList?.Any() ?? true)

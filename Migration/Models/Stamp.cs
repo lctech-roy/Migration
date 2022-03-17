@@ -1,7 +1,7 @@
 namespace Migration.Models;
 using Newtonsoft.Json;
 
-public class Smiley
+public class Stamp
 {
     [JsonIgnore]
     public int DisplayOrder { get; set; }
@@ -10,4 +10,9 @@ public class Smiley
     public string? Code { get; set; }
     [JsonProperty(PropertyName = "FileName")]
     public string? Url { get; set; }
+    public string? RelatedSmallImageUrl { get; set; }
+
+    [JsonProperty(PropertyName = "RelatedOperate")]
+    public int? TypeId { get; set; }
+
 }
