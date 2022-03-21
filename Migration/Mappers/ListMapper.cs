@@ -52,8 +52,8 @@ public class ListMapper<T>
                 Value = JsonConvert.SerializeObject(oldSetting),
                 Hierarchy = $"{rootId}/{id}",
                 Level = 2,
-                Index = oldSetting?.GetType().GetProperty("DisplayOrder") != null ?
-                    oldSetting?.DisplayOrder : null
+                SortingIndex = oldSetting?.GetType().GetProperty("DisplayOrder") != null ?
+                    oldSetting.DisplayOrder : 0
             };
             configurationList.Add(configuration);
         }

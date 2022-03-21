@@ -60,7 +60,7 @@ public class StampMapper : IMapper
                 Value = JsonConvert.SerializeObject(stamp),
                 Hierarchy = $"{rootId}/{id}",
                 Level = 2,
-                Index = stamp.DisplayOrder
+                SortingIndex = stamp.DisplayOrder
             };
             configurationList.Add(configuration);
         }

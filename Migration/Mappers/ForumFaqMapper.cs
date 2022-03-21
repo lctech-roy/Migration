@@ -53,7 +53,7 @@ public class ForumFaqMapper: IMapper
                 Value = JsonConvert.SerializeObject(parentFaq),
                 Hierarchy = $"{rootId}/{parentId}",
                 Level = 2,
-                Index = parentFaq.DisplayOrder
+                SortingIndex = parentFaq.DisplayOrder
             };
             configurationList.Add(configuration);
             idMappedDic.Add(parentFaq.Id, (configuration,0));
@@ -79,7 +79,7 @@ public class ForumFaqMapper: IMapper
                 Value =  JsonConvert.SerializeObject(forumFaq),
                 Hierarchy = $"{rootId}/{parentId}/{id}",
                 Level = 3,
-                Index = forumFaq.DisplayOrder
+                SortingIndex = forumFaq.DisplayOrder
             };
             configurationList.Add(configuration);
             //更新數量

@@ -50,7 +50,7 @@ public class EmojiMapper : IMapper
                 Value = JsonConvert.SerializeObject(forumImage),
                 Hierarchy = $"{rootId}/{parentId}",
                 Level = 2,
-                Index = forumImage.DisplayOrder
+                SortingIndex = forumImage.DisplayOrder
             };
             configurationList.Add(configuration);
             
@@ -77,7 +77,7 @@ public class EmojiMapper : IMapper
                     Value = JsonConvert.SerializeObject(smiley),
                     Hierarchy = $"{rootId}/{parentId}/{id}",
                     Level = 3,
-                    Index = smiley.DisplayOrder
+                    SortingIndex = smiley.DisplayOrder
                 };
                 configurationList.Add(configuration);
             }

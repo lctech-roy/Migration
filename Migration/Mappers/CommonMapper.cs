@@ -45,6 +45,7 @@ public class CommonMapper : IMapper
     private static readonly Func<CommonSetting, Configuration, List<Configuration>> SingleRow = (setting, configuration) =>
     {
         configuration.Id = Snowflake.Instance.Generate();
+        configuration.Hierarchy = configuration.Id.ToString();
         //數字轉換boolean string
         if(configuration.Key?.IndexOf("is", StringComparison.Ordinal) == 0)
             setting.svalue = setting.svalue == "0" ? "false" : 
@@ -58,6 +59,7 @@ public class CommonMapper : IMapper
     private static readonly Func<CommonSetting, Configuration, List<Configuration>> MultipleCheckBox = (setting, configuration) =>
     {
         configuration.Id = Snowflake.Instance.Generate();
+        configuration.Hierarchy = configuration.Id.ToString();
         configuration.Value = setting.svalue;
         configuration.Group = _group;
         switch (Enum.Parse<NewCommonKey>(configuration.Key!))

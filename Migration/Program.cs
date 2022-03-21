@@ -52,7 +52,9 @@ foreach (var configuration in configurationList)
 {
     Console.WriteLine("key" + configuration.Key);
     pgSqlConnection.Execute(
-        @"INSERT INTO ""Configure"" (""Id"",""Key"", ""Value"", ""Group"", ""ParentId""
-                                        , ""CreationDate"",""Hierarchy"",""Level"",""Index"")
-        VALUES (@Id,@Key,@Value,@Group,@ParentId,@CreationDate,@Hierarchy,@Level,@Index);", configuration);
+        @"INSERT INTO ""Configuration"" (""Id"",""Key"", ""Value"", ""Group"",""Source"", ""ParentId""
+                                        , ""CreationDate"", ""CreatorId"", ""ModificationDate"", ""ModifierId"",
+                                        ""Hierarchy"",""Level"",""SortingIndex"",""Version"")
+        VALUES (@Id,@Key,@Value,@Group,@Source,@ParentId,@CreationDate,@CreatorId,@ModificationDate,
+                @ModifierId,@Hierarchy,@Level,@SortingIndex,@Version);", configuration);
 }
