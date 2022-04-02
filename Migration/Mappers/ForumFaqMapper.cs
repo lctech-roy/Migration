@@ -1,4 +1,5 @@
 using Dapper;
+using Migration.Helper;
 using Migration.Models;
 using MySql.Data.MySqlClient;
 using Netcorext.Algorithms;
@@ -50,19 +51,21 @@ public class ForumFaqMapper: IMapper
                 Key = $"{_group}_{i + 1}",
                 Group = _group,
                 ParentId = rootId,
-                Value = JsonConvert.SerializeObject(parentFaq),
                 Hierarchy = $"{rootId}/{parentId}",
                 Level = 2,
                 SortingIndex = parentFaq.DisplayOrder
             };
+
             configurationList.Add(configuration);
+
             idMappedDic.Add(parentFaq.Id, (configuration,0));
+
+            var columnConfigurations = ConfigurationColumnHelper.GetColumnConfigurations(configuration, JsonConvert.SerializeObject(parentFaq));
+            configurationList.AddRange(columnConfigurations);
         }
 
-        for (var i = 0; i < forumFaqList.Count; i++)
+        foreach (var forumFaq in forumFaqList)
         {
-            var forumFaq = forumFaqList[i];
-
             if (forumFaq.Fpid == 0)
                 continue;
 
@@ -76,7 +79,6 @@ public class ForumFaqMapper: IMapper
                 Key = $"{parentConfiguration.Key}_{++childCount}",
                 Group = _group,
                 ParentId = parentId,
-                Value =  JsonConvert.SerializeObject(forumFaq),
                 Hierarchy = $"{rootId}/{parentId}/{id}",
                 Level = 3,
                 SortingIndex = forumFaq.DisplayOrder
@@ -84,6 +86,9 @@ public class ForumFaqMapper: IMapper
             configurationList.Add(configuration);
             //更新數量
             idMappedDic[forumFaq.Fpid] = (parentConfiguration, childCount);
+
+            var columnConfigurations = ConfigurationColumnHelper.GetColumnConfigurations(configuration, JsonConvert.SerializeObject(forumFaq));
+            configurationList.AddRange(columnConfigurations);
         }
 
         return configurationList;

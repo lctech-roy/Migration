@@ -1,4 +1,5 @@
 using Dapper;
+using Migration.Helper;
 using Migration.Models;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
@@ -57,12 +58,14 @@ public class StampMapper : IMapper
                 Key = $"{_group}_{i+1}",
                 Group = _group,
                 ParentId = rootId,
-                Value = JsonConvert.SerializeObject(stamp),
                 Hierarchy = $"{rootId}/{id}",
                 Level = 2,
                 SortingIndex = stamp.DisplayOrder
             };
             configurationList.Add(configuration);
+
+            var columnConfigurations = ConfigurationColumnHelper.GetColumnConfigurations(configuration, JsonConvert.SerializeObject(stamp));
+            configurationList.AddRange(columnConfigurations);
         }
         return configurationList;
     }

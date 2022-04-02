@@ -1,4 +1,5 @@
 using Dapper;
+using Migration.Helper;
 using Migration.Models;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
@@ -47,12 +48,14 @@ public class EmojiMapper : IMapper
                 Key = parentKey,
                 Group = _group,
                 ParentId = rootId,
-                Value = JsonConvert.SerializeObject(forumImage),
                 Hierarchy = $"{rootId}/{parentId}",
                 Level = 2,
                 SortingIndex = forumImage.DisplayOrder
             };
             configurationList.Add(configuration);
+
+            var columnConfigurations = ConfigurationColumnHelper.GetColumnConfigurations(configuration, JsonConvert.SerializeObject(forumImage));
+            configurationList.AddRange(columnConfigurations);
             
             var smileyList = mySqlConnection.Query<Smiley>
             //tinyint(1)的資料類型dapper轉換會出問題，所以select出來轉UNSIGNED
@@ -74,12 +77,14 @@ public class EmojiMapper : IMapper
                     Key = $"{parentKey}_{j+1}",
                     Group = _group,
                     ParentId = parentId,
-                    Value = JsonConvert.SerializeObject(smiley),
                     Hierarchy = $"{rootId}/{parentId}/{id}",
                     Level = 3,
                     SortingIndex = smiley.DisplayOrder
                 };
                 configurationList.Add(configuration);
+
+                var childColumnConfigurations = ConfigurationColumnHelper.GetColumnConfigurations(configuration, JsonConvert.SerializeObject(smiley));
+                configurationList.AddRange(childColumnConfigurations);
             }
         }
 

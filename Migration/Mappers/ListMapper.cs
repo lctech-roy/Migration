@@ -1,3 +1,4 @@
+using Migration.Helper;
 using Migration.Models;
 using Netcorext.Algorithms;
 using Newtonsoft.Json;
@@ -49,13 +50,15 @@ public class ListMapper<T>
                 Key = $"{_key}_{i + 1}",
                 Group = _group,
                 ParentId = rootId,
-                Value = JsonConvert.SerializeObject(oldSetting),
                 Hierarchy = $"{rootId}/{id}",
                 Level = 2,
                 SortingIndex = oldSetting?.GetType().GetProperty("DisplayOrder") != null ?
                     oldSetting.DisplayOrder : 0
             };
             configurationList.Add(configuration);
+
+            var columnConfigurations = ConfigurationColumnHelper.GetColumnConfigurations(configuration, JsonConvert.SerializeObject(oldSetting));
+            configurationList.AddRange(columnConfigurations);
         }
 
         return configurationList;
