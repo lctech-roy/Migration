@@ -1,35 +1,57 @@
 using Migration.Enums;
 using Migration.Models;
+using Netcorext.Algorithms;
 using Newtonsoft.Json;
 
 namespace Migration.Helper;
 
 public static class BannedMemberMessages
 {
-    public static void TransferValue(CommonSetting setting,Configuration configuration)
+    public static IEnumerable<Configuration> TransferValue(Configuration configuration,CommonSetting setting)
     {
-        var options = new List<BooleanOption>();
-        var option1 = new BooleanOption
+        var options = new List<BooleanOption>()
         {
-            Key = "postContent",
-            Value = "1,3,5,7".Contains(setting.svalue!),
-            Text = "文章內容"
+            new () {
+                Key = "postContent",
+                Value = "1,3,5,7".Contains(setting.svalue!),
+                Text = "文章內容"
+            },
+            new () {
+                Key = "memberPicture",
+                Value = "2,3,6,7".Contains(setting.svalue!),
+                Text = "會員頭像"
+            },
+            new () {
+                Key = "memberSign",
+                Value = "4,5,6,7".Contains(setting.svalue!),
+                Text = "會員簽名"
+            }
         };
-        var option2 = new BooleanOption
+
+        var rowColumnConfigurations = new List<Configuration>();
+
+        for (var i = 0; i < options.Count; i++)
         {
-            Key = "memberPicture",
-            Value = "2,3,6,7".Contains(setting.svalue!),
-            Text = "會員頭像"
-        };
-        var option3 = new BooleanOption
-        {
-            Key = "memberSign",
-            Value = "4,5,6,7".Contains(setting.svalue!),
-            Text = "會員簽名"
-        };
-        options.Add(option1);
-        options.Add(option2);
-        options.Add(option3);
-        configuration.Value = JsonConvert.SerializeObject(options);
+            var id = Snowflake.Instance.Generate();
+            var option = options[i];
+
+            var optionConfiguration = new Configuration
+            {
+                Id = id,
+                Key = $"{configuration.Key}_{i + 1}",
+                Group = configuration.Group,
+                ParentId = configuration.Id,
+                Hierarchy = $"{configuration.Id}/{id}",
+                Level = 2,
+                SortingIndex = i + 1
+            };
+            rowColumnConfigurations.Add(optionConfiguration);
+
+            var value = JsonConvert.SerializeObject(option);
+            var columnConfigurations = ConfigurationColumnHelper.GetColumnConfigurations(optionConfiguration, value);
+            rowColumnConfigurations.AddRange(columnConfigurations);
+        }
+
+        return rowColumnConfigurations;
     }
 }
