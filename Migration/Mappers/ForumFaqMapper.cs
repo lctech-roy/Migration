@@ -22,7 +22,7 @@ public class ForumFaqMapper: IMapper
         var forumFaqList = mySqlConnection.Query<ForumFaq>
             ("SELECT * FROM pre_forum_faq").ToList();;
 
-        var rootId = Snowflake.Instance.Generate();
+        var rootId = SnowflakeJavaScriptSafeInteger.Instance.Generate();
 
         var configuration = new Configuration
         {
@@ -42,7 +42,7 @@ public class ForumFaqMapper: IMapper
 
         for (var i = 0; i < parentFaqList.Count; i++)
         {
-            var parentId = Snowflake.Instance.Generate();
+            var parentId = SnowflakeJavaScriptSafeInteger.Instance.Generate();
             var parentFaq = parentFaqList[i];
 
             configuration = new Configuration
@@ -69,7 +69,7 @@ public class ForumFaqMapper: IMapper
             if (forumFaq.Fpid == 0)
                 continue;
 
-            var id = Snowflake.Instance.Generate();
+            var id = SnowflakeJavaScriptSafeInteger.Instance.Generate();
             var (parentConfiguration, childCount) = idMappedDic[forumFaq.Fpid];
             var parentId = parentConfiguration.Id;
 

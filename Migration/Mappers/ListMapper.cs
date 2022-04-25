@@ -29,7 +29,7 @@ public class ListMapper<T>
         if (!oldSettingList?.Any() ?? true)
             return configurationList;
         
-        var rootId = Snowflake.Instance.Generate();
+        var rootId = SnowflakeJavaScriptSafeInteger.Instance.Generate();
         var configuration = new Configuration
         {
             Id = rootId,
@@ -42,7 +42,7 @@ public class ListMapper<T>
         
         for (var i = 0; i < oldSettingList.Count; i++)
         {
-            var id = Snowflake.Instance.Generate();
+            var id = SnowflakeJavaScriptSafeInteger.Instance.Generate();
             dynamic? oldSetting = oldSettingList[i];
             configuration = new Configuration
             {

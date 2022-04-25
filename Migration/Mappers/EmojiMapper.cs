@@ -25,7 +25,7 @@ public class EmojiMapper : IMapper
         if (!forumImageList?.Any() ?? true)
             return configurationList;
         
-        var rootId = Snowflake.Instance.Generate();
+        var rootId = SnowflakeJavaScriptSafeInteger.Instance.Generate();
         var configuration = new Configuration
         {
             Id = rootId,
@@ -38,7 +38,7 @@ public class EmojiMapper : IMapper
         
         for (var i = 0; i < forumImageList.Count; i++)
         {
-            var parentId = Snowflake.Instance.Generate();
+            var parentId = SnowflakeJavaScriptSafeInteger.Instance.Generate();
             var parentKey = $"{_group}_{i + 1}";
             var forumImage = forumImageList[i];
 
@@ -68,7 +68,7 @@ public class EmojiMapper : IMapper
             
             for (var j = 0; j < smileyList.Count; j++)
             {
-                var id = Snowflake.Instance.Generate();
+                var id = SnowflakeJavaScriptSafeInteger.Instance.Generate();
                 var smiley = smileyList[j];
 
                 configuration = new Configuration

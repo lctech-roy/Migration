@@ -28,7 +28,7 @@ public class StampMapper : IMapper
         if (!stampList?.Any() ?? true)
             return configurationList;
 
-        var rootId = Snowflake.Instance.Generate();
+        var rootId = SnowflakeJavaScriptSafeInteger.Instance.Generate();
 
         var configuration = new Configuration
         {
@@ -46,7 +46,7 @@ public class StampMapper : IMapper
 
         for (var i = 0; i < stampList.Count; i++)
         {
-            var id = Snowflake.Instance.Generate();
+            var id = SnowflakeJavaScriptSafeInteger.Instance.Generate();
             var stamp = stampList[i];
             var stampFileName =  Path.GetFileNameWithoutExtension(stamp.Url);
             stamp.RelatedSmallImageUrl =

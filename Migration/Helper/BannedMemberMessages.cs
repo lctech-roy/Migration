@@ -32,7 +32,7 @@ public static class BannedMemberMessages
 
         for (var i = 0; i < options.Count; i++)
         {
-            var id = Snowflake.Instance.Generate();
+            var id = SnowflakeJavaScriptSafeInteger.Instance.Generate();
             var option = options[i];
 
             var optionConfiguration = new Configuration

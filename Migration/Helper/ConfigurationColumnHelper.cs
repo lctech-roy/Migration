@@ -14,7 +14,7 @@ public static class ConfigurationColumnHelper
 
         foreach(var (key, value) in columnDic!)
         {
-            var id = Snowflake.Instance.Generate();
+            var id = SnowflakeJavaScriptSafeInteger.Instance.Generate();
             var configurationColumn = new Configuration()
             {
                 Id = id,
